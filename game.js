@@ -6,7 +6,7 @@ kaboom({
     width: 800,
     height: 600,
     scale: 1,
-    global: true,
+    global: true, // This makes functions like layers() available globally
 });
 
 loadSprite("snake-skin", "sprites/snake.png");
@@ -41,13 +41,7 @@ scene("game", () => {
         fixed()
     ]);
 
-    const levelText = add([
-        text("Level: 1", { size: 20 }),
-        pos(580, 250),
-        fixed()
-    ]);
-
-    // Game mechanics will go here
+    // Add your game mechanics here
 });
 
 go("game");
