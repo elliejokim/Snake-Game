@@ -1,4 +1,3 @@
-
 import kaboom from "kaboom";
 
 kaboom({ background: [51, 151, 255] });
