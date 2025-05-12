@@ -1,5 +1,4 @@
 
-// Here would be the contents of your game code
 import kaboom from "kaboom";
 
 kaboom({ background: [51, 151, 255] });
@@ -16,4 +15,23 @@ loadSprite("post-bottom-right", "./sprites/post-bottom-right.png");
 loadSprite("snake-skin", "./sprites/snake.png");
 loadSprite("coin", "./sprites/coin.png");
 
-// Your game code continues...
+layers(["background", "game"], "game");
+
+scene("game", () => {
+    let score = 0;
+    const scoreText = add([
+        text("Score: 0", { size: 20 }),
+        pos(580, 220),
+        fixed()
+    ]);
+
+    const levelText = add([
+        text("Level: 1", { size: 20 }),
+        pos(580, 250),
+        fixed()
+    ]);
+
+    // Your game code here...
+});
+
+go("game");
