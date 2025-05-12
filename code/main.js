@@ -19,7 +19,7 @@ layers(["background", "game"], "game");
 // 🎮 Initial Instructions screen
 const startScreen = add([
     text(
-        "SNAKE GAME\n\n▶ Click the screen and press SPACE to start.\n▶ Use arrow keys to move the snake.\n▶ Eat pizzas to level up and move faster!\n▶ Avoid hitting walls or yourself!\n▶ Eat 30 pizzas to win!\n▶ Press P to Pause/Resume.",
+        "SNAKE GAME\n\n▶ Click the screen and press SPACE to start.\n▶ Use arrow keys to move the snake.\n▶ Eat coins to level up and move faster!\n▶ Avoid hitting walls or yourself!\n▶ Eat 30 coins to win!\n▶ Press P to Pause/Resume.",
         { size: 16, align: "left", width: 350, height: 400 }
     ),
     pos(10, 100),
@@ -241,9 +241,9 @@ function startGame() {
         text(
             "INSTRUCTIONS:\n\n" +
             "▶ Arrow keys: Move\n" +
-            "▶ Eat pizzas to grow\n" +
+            "▶ Eat coins to grow\n" +
             "▶ Avoid walls and yourself\n" +
-            "▶ Eat 30 pizzas to win\n" +
+            "▶ Eat 30 coins to win\n" +
             "▶ Press P to Pause/Resume",
             { size: 14, width: 180 }
         ),
