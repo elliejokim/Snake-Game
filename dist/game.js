@@ -2364,7 +2364,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   loadSprite("coin", "sprites/coin.png");
   layers(["background", "game"], "game");
   var startScreen = add([
-    text("SNAKE GAME\n\n\u25B6 Click the screen and press SPACE to start.\n\u25B6 Use arrow keys to move the snake.\n\u25B6 Eat coins to level up and move faster!\n\u25B6 Avoid hitting walls or yourself!\n\u25B6 Eat 30 coins to win!\n\u25B6 Press P to Pause/Resume.", { size: 16, align: "left", width: 350, height: 400 }),
+    text("SNAKE GAME\n\n\u25B6 Click the screen and press SPACE to start.\n\u25B6 Use arrow keys to move the snake.\n\u25B6 Eat 5 coins to level up and move faster!\n\u25B6 Avoid hitting walls or yourself!\n\u25B6 Eat 30 coins to win!\n\u25B6 Press P to Pause/Resume.", { size: 16, align: "left", width: 350, height: 400 }),
     pos(10, 100),
     color(255, 255, 255),
     fixed()
@@ -2568,7 +2568,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       }
     });
     add([
-      text("INSTRUCTIONS:\n\n\u25B6 Arrow keys: Move\n\u25B6 Eat coins to grow\n\u25B6 Avoid walls and yourself\n\u25B6 Eat 30 coins to win\n\u25B6 Press P to Pause/Resume", { size: 14, width: 180 }),
+      text("INSTRUCTIONS:\n\n\u25B6 Arrow keys: Move\n\u25B6 Eat 5 coins to level up\n\u25B6 Avoid walls and yourself\n\u25B6 Eat 30 coins to win\n\u25B6 Press P to Pause/Resume", { size: 14, width: 180 }),
       pos(580, 60),
       color(255, 255, 255),
       fixed()
