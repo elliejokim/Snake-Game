@@ -2360,7 +2360,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   loadSprite("post-top-right", "sprites/post-top-right.png");
   loadSprite("post-bottom-left", "sprites/post-bottom-left.png");
   loadSprite("post-bottom-right", "sprites/post-bottom-right.png");
-  loadSprite("snake-skin", "sprites/snake.png");
+  loadSprite("snake-skin", "../sprites/snake.png");
   loadSprite("coin", "sprites/coin.png");
   layers(["background", "game"], "game");
   var startScreen = add([
