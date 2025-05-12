@@ -2386,12 +2386,12 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
     const block_size = 40;
     const scoreText = add([
       text("Score: 0", { size: 20 }),
-      pos(10, 10),
+      pos(580, 220),
       fixed()
     ]);
     const levelText = add([
       text("Level: 1", { size: 20 }),
-      pos(10, 40),
+      pos(580, 250),
       fixed()
     ]);
     const map = addLevel([
@@ -2457,7 +2457,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
     __name(respawn_food, "respawn_food");
     function updateScore() {
       scoreText.text = `Score: ${score}`;
-      if (score % 10 === 0 && score !== 0) {
+      if (score % 5 === 0 && score !== 0) {
         level++;
         levelText.text = `Level: ${level}`;
         move_delay = Math.max(0.1, move_delay - 0.04);
