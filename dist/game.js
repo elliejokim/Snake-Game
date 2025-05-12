@@ -2361,7 +2361,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   loadSprite("post-bottom-left", "sprites/post-bottom-left.png");
   loadSprite("post-bottom-right", "sprites/post-bottom-right.png");
   loadSprite("snake-skin", "sprites/snake-skin.png");
-  loadSprite("pizza", "sprites/pizza.png");
+  loadSprite("coin", "sprites/coin.png");
   layers(["background", "game"], "game");
   var startScreen = add([
     text("SNAKE GAME\n\n\u25B6 Click the screen and press SPACE to start.\n\u25B6 Use arrow keys to move the snake.\n\u25B6 Eat pizzas to level up and move faster!\n\u25B6 Avoid hitting walls or yourself!\n\u25B6 Eat 30 pizzas to win!\n\u25B6 Press P to Pause/Resume.", { size: 16, align: "left", width: 350, height: 400 }),
@@ -2448,7 +2448,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       if (food)
         destroy(food);
       food = add([
-        sprite("pizza"),
+        sprite("coin"),
         pos(new_pos),
         area(),
         "food"

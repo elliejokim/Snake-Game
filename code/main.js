@@ -12,7 +12,7 @@ loadSprite("post-top-right", "sprites/post-top-right.png");
 loadSprite("post-bottom-left", "sprites/post-bottom-left.png");
 loadSprite("post-bottom-right", "sprites/post-bottom-right.png");
 loadSprite("snake-skin", "sprites/snake-skin.png");
-loadSprite("pizza", "sprites/pizza.png");
+loadSprite("coin", "sprites/coin.png");
 
 layers(["background", "game"], "game");
 
@@ -118,7 +118,7 @@ function startGame() {
         if (food) destroy(food);
 
         food = add([
-            sprite("pizza"),
+            sprite("coin"),
             pos(new_pos),
             area(),
             "food"
