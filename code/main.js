@@ -47,14 +47,14 @@ function startGame() {
 
     const scoreText = add([
         text("Score: 0", { size: 20 }),
-        pos(10, 10),
-        fixed(),
+        pos(580, 220),
+        fixed()
     ]);
 
     const levelText = add([
         text("Level: 1", { size: 20 }),
-        pos(10, 40),
-        fixed(),
+        pos(580, 250),
+        fixed()
     ]);
 
     const map = addLevel([
@@ -127,7 +127,7 @@ function startGame() {
 
     function updateScore() {
         scoreText.text = `Score: ${score}`;
-        if (score % 10 === 0 && score !== 0) {
+        if (score % 5 === 0 && score !== 0) {
             level++;
             levelText.text = `Level: ${level}`;
             move_delay = Math.max(0.1, move_delay - 0.04);
@@ -252,4 +252,3 @@ function startGame() {
         fixed(),
     ]);
 }
-
