@@ -9,26 +9,25 @@ const k = kaboom({
     global: true,
 });
 
-loadSprite("snake-skin", "/sprites/snake.png");
-loadSprite("coin", "/sprites/coin.png");
-loadSprite("background", "/sprites/background.png");
-loadSprite("fence-top", "/sprites/fence-top.png");
-loadSprite("fence-bottom", "/sprites/fence-bottom.png");
-loadSprite("fence-left", "/sprites/fence-left.png");
-loadSprite("fence-right", "/sprites/fence-right.png");
-loadSprite("post-top-left", "/sprites/post-top-left.png");
-loadSprite("post-top-right", "/sprites/post-top-right.png");
-loadSprite("post-bottom-left", "/sprites/post-bottom-left.png");
-loadSprite("post-bottom-right", "/sprites/post-bottom-right.png");
+// Load sprites with the correct relative paths
+loadSprite("snake-skin", "snake.png");
+loadSprite("coin", "coin.png");
+loadSprite("background", "background.png");
+loadSprite("fence-top", "fence-top.png");
+loadSprite("fence-bottom", "fence-bottom.png");
+loadSprite("fence-left", "fence-left.png");
+loadSprite("fence-right", "fence-right.png");
+loadSprite("post-top-left", "post-top-left.png");
+loadSprite("post-top-right", "post-top-right.png");
+loadSprite("post-bottom-left", "post-bottom-left.png");
+loadSprite("post-bottom-right", "post-bottom-right.png");
 
 k.layers(["background", "game"], "game");
 
 // Initial Instructions screen
 const startScreen = add([
-    text(
-        "SNAKE GAME\n\n▶ Click the screen and press SPACE to start.\n▶ Use arrow keys to move the snake.\n▶ Eat 5 coins to level up and move faster!\n▶ Avoid hitting walls or yourself!\n▶ Eat 30 coins to win!\n▶ Press P to Pause/Resume.",
-        { size: 16, align: "left", width: 350, height: 400 }
-    ),
+    text("SNAKE GAME\n\n▶ Click the screen and press SPACE to start.\n▶ Use arrow keys to move the snake.\n▶ Eat 5 coins to level up and move faster!\n▶ Avoid hitting walls or yourself!\n▶ Eat 30 coins to win!\n▶ Press P to Pause/Resume.", 
+    { size: 16, align: "left", width: 350, height: 400 }),
     pos(10, 100),
     color(255, 255, 255),
     fixed(),
@@ -38,6 +37,21 @@ keyPress("space", () => {
     destroy(startScreen);
     startGame();
 });
+
+function respawn_snake() {
+    snake_body.forEach(segment => destroy(segment));
+    snake_body = [];
+    snake_length = 3;
+    current_direction = directions.RIGHT;
+    for (let i = 1; i <= snake_length; i++) {
+        snake_body.push(add([
+            sprite("snake-skin"),
+            pos(block_size, block_size * i),
+            area(),
+            "snake"
+        ]));
+    }
+}
 
 function startGame() {
     const directions = { UP: "up", DOWN: "down", LEFT: "left", RIGHT: "right" };
@@ -92,6 +106,19 @@ function startGame() {
     });
 
     respawn_all();
+}
+
+function respawn_all() {
+    run_action = false;
+    wait(0.5, () => {
+        score = 0;
+        level = 1;
+        move_delay = 0.35;
+        updateScore();
+        respawn_snake();
+        respawn_food();
+        run_action = true;
+    });
 }
 
 go("game");
