@@ -1,7 +1,7 @@
 
 import kaboom from "https://unpkg.com/kaboom@3000.0.1/dist/kaboom.mjs";
 
-kaboom({ 
+const k = kaboom({ 
     background: [51, 151, 255],
     width: 800,
     height: 600,
@@ -21,7 +21,7 @@ loadSprite("post-top-right", "./sprites/post-top-right.png");
 loadSprite("post-bottom-left", "./sprites/post-bottom-left.png");
 loadSprite("post-bottom-right", "./sprites/post-bottom-right.png");
 
-const layers(["background", "game"], "game");
+k.layers(["background", "game"], "game");
 
 // Initial Instructions screen
 const startScreen = add([
