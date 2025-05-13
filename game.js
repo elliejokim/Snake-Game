@@ -21,7 +21,7 @@ loadSprite("post-top-right", "./sprites/post-top-right.png");
 loadSprite("post-bottom-left", "./sprites/post-bottom-left.png");
 loadSprite("post-bottom-right", "./sprites/post-bottom-right.png");
 
-layers(["background", "game"], "game");
+const layers(["background", "game"], "game");
 
 // Initial Instructions screen
 const startScreen = add([
