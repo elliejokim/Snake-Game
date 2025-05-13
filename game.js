@@ -1,4 +1,6 @@
-kaboom({
+import kaboom from "https://unpkg.com/kaboom@3000.0.1/dist/kaboom.mjs";
+
+const k = kaboom({ 
     background: [51, 151, 255],
     width: 800,
     height: 600,
@@ -6,33 +8,33 @@ kaboom({
     global: true,
 });
 
-loadSprite("snake-skin", "sprites/snake.png");
-loadSprite("coin", "sprites/coin.png");
-loadSprite("background", "sprites/background.png");
-loadSprite("fence-top", "sprites/fence-top.png");
-loadSprite("fence-bottom", "sprites/fence-bottom.png");
-loadSprite("fence-left", "sprites/fence-left.png");
-loadSprite("fence-right", "sprites/fence-right.png");
-loadSprite("post-top-left", "sprites/post-top-left.png");
-loadSprite("post-top-right", "sprites/post-top-right.png");
-loadSprite("post-bottom-left", "sprites/post-bottom-left.png");
-loadSprite("post-bottom-right", "sprites/post-bottom-right.png");
+k.loadSprite("snake-skin", "sprites/snake.png");
+k.loadSprite("coin", "sprites/coin.png");
+k.loadSprite("background", "sprites/background.png");
+k.loadSprite("fence-top", "sprites/fence-top.png");
+k.loadSprite("fence-bottom", "sprites/fence-bottom.png");
+k.loadSprite("fence-left", "sprites/fence-left.png");
+k.loadSprite("fence-right", "sprites/fence-right.png");
+k.loadSprite("post-top-left", "sprites/post-top-left.png");
+k.loadSprite("post-top-right", "sprites/post-top-right.png");
+k.loadSprite("post-bottom-left", "sprites/post-bottom-left.png");
+k.loadSprite("post-bottom-right", "sprites/post-bottom-right.png");
 
-layers(["background", "game"], "game");
+k.layers(["background", "game"], "game");
 
 // Initial Instructions screen
-const startScreen = add([
-    text(
+const startScreen = k.add([
+    k.text(
         "SNAKE GAME\n\n▶ Click the screen and press SPACE to start.\n▶ Use arrow keys to move the snake.\n▶ Eat 5 coins to level up and move faster!\n▶ Avoid hitting walls or yourself!\n▶ Eat 30 coins to win!\n▶ Press P to Pause/Resume.",
         { size: 16, align: "left", width: 350, height: 400 }
     ),
-    pos(10, 100),
-    color(255, 255, 255),
-    fixed(),
+    k.pos(10, 100),
+    k.color(255, 255, 255),
+    k.fixed(),
 ]);
 
-keyPress("space", () => {
-    destroy(startScreen);
+k.keyPress("space", () => {
+    k.destroy(startScreen);
     startGame();
 });
 
@@ -48,19 +50,19 @@ function startGame() {
     const scoreToWin = 30;
     const block_size = 40;
 
-    const scoreText = add([
-        text("Score: 0", { size: 20 }),
-        pos(580, 220),
-        fixed()
+    const scoreText = k.add([
+        k.text("Score: 0", { size: 20 }),
+        k.pos(580, 220),
+        k.fixed()
     ]);
 
-    const levelText = add([
-        text("Level: 1", { size: 20 }),
-        pos(580, 250),
-        fixed()
+    const levelText = k.add([
+        k.text("Level: 1", { size: 20 }),
+        k.pos(580, 250),
+        k.fixed()
     ]);
 
-    const map = addLevel([
+    const map = k.addLevel([
         "1tttttttttttt2",
         "l            r",
         "l            r",
@@ -77,27 +79,27 @@ function startGame() {
     ], {
         width: block_size,
         height: block_size,
-        pos: vec2(0, 0),
-        "t": () => [sprite("fence-top"), area(), "wall"],
-        "b": () => [sprite("fence-bottom"), area(), "wall"],
-        "l": () => [sprite("fence-left"), area(), "wall"],
-        "r": () => [sprite("fence-right"), area(), "wall"],
-        "1": () => [sprite("post-top-left"), area(), "wall"],
-        "2": () => [sprite("post-top-right"), area(), "wall"],
-        "3": () => [sprite("post-bottom-left"), area(), "wall"],
-        "4": () => [sprite("post-bottom-right"), area(), "wall"],
+        pos: k.vec2(0, 0),
+        "t": () => [k.sprite("fence-top"), k.area(), "wall"],
+        "b": () => [k.sprite("fence-bottom"), k.area(), "wall"],
+        "l": () => [k.sprite("fence-left"), k.area(), "wall"],
+        "r": () => [k.sprite("fence-right"), k.area(), "wall"],
+        "1": () => [k.sprite("post-top-left"), k.area(), "wall"],
+        "2": () => [k.sprite("post-top-right"), k.area(), "wall"],
+        "3": () => [k.sprite("post-bottom-left"), k.area(), "wall"],
+        "4": () => [k.sprite("post-bottom-right"), k.area(), "wall"],
     });
 
     function respawn_snake() {
-        snake_body.forEach(segment => destroy(segment));
+        snake_body.forEach(segment => k.destroy(segment));
         snake_body = [];
         snake_length = 3;
         current_direction = directions.RIGHT;
         for (let i = 1; i <= snake_length; i++) {
-            snake_body.push(add([
-                sprite("snake-skin"),
-                pos(block_size, block_size * i),
-                area(),
+            snake_body.push(k.add([
+                k.sprite("snake-skin"),
+                k.pos(block_size, block_size * i),
+                k.area(),
                 "snake"
             ]));
         }
@@ -108,7 +110,7 @@ function startGame() {
     function respawn_food() {
         let new_pos;
         do {
-            new_pos = rand(vec2(1, 1), vec2(12, 12));
+            new_pos = k.rand(k.vec2(1, 1), k.vec2(12, 12));
             new_pos.x = Math.floor(new_pos.x);
             new_pos.y = Math.floor(new_pos.y);
             new_pos = new_pos.scale(block_size);
@@ -116,11 +118,11 @@ function startGame() {
             new_pos.x <= block_size || new_pos.x >= 13 * block_size ||
             new_pos.y <= block_size || new_pos.y >= 12 * block_size
         );
-        if (food) destroy(food);
-        food = add([
-            sprite("coin"),
-            pos(new_pos),
-            area(),
+        if (food) k.destroy(food);
+        food = k.add([
+            k.sprite("coin"),
+            k.pos(new_pos),
+            k.area(),
             "food"
         ]);
     }
@@ -131,24 +133,24 @@ function startGame() {
             level++;
             levelText.text = `Level: ${level}`;
             move_delay = Math.max(0.1, move_delay - 0.04);
-            add([
-                text(`Level ${level}!`, { size: 24 }),
-                pos(160, 240),
-                lifespan(2)
+            k.add([
+                k.text(`Level ${level}!`, { size: 24 }),
+                k.pos(160, 240),
+                k.lifespan(2)
             ]);
         }
         if (score >= scoreToWin) {
             run_action = false;
-            add([
-                text("🎉 You Win!\nRefresh to play again.", { size: 26 }),
-                pos(100, 200)
+            k.add([
+                k.text("🎉 You Win!\nRefresh to play again.", { size: 26 }),
+                k.pos(100, 200)
             ]);
         }
     }
 
     function respawn_all() {
         run_action = false;
-        wait(0.5, () => {
+        k.wait(0.5, () => {
             score = 0;
             level = 1;
             move_delay = 0.35;
@@ -161,7 +163,7 @@ function startGame() {
 
     respawn_all();
 
-    collides("snake", "food", () => {
+    k.collides("snake", "food", () => {
         snake_length++;
         score++;
         updateScore();
@@ -170,45 +172,45 @@ function startGame() {
 
     function gameOver() {
         run_action = false;
-        shake(12);
-        add([
-            text("💀 Game Over!\nRefresh to try again.", { size: 26 }),
-            pos(80, 220)
+        k.shake(12);
+        k.add([
+            k.text("💀 Game Over!\nRefresh to try again.", { size: 26 }),
+            k.pos(80, 220)
         ]);
     }
 
-    collides("snake", "wall", gameOver);
-    collides("snake", "snake", gameOver);
+    k.collides("snake", "wall", gameOver);
+    k.collides("snake", "snake", gameOver);
 
-    keyPress("up", () => {
+    k.keyPress("up", () => {
         if (current_direction !== directions.DOWN) current_direction = directions.UP;
     });
-    keyPress("down", () => {
+    k.keyPress("down", () => {
         if (current_direction !== directions.UP) current_direction = directions.DOWN;
     });
-    keyPress("left", () => {
+    k.keyPress("left", () => {
         if (current_direction !== directions.RIGHT) current_direction = directions.LEFT;
     });
-    keyPress("right", () => {
+    k.keyPress("right", () => {
         if (current_direction !== directions.LEFT) current_direction = directions.RIGHT;
     });
 
     let isPaused = false;
 
-    keyPress("p", () => {
+    k.keyPress("p", () => {
         isPaused = !isPaused;
         if (isPaused) {
-            add([text("Paused", { size: 24 }), pos(150, 200)]);
+            k.add([k.text("Paused", { size: 24 }), k.pos(150, 200)]);
         } else {
-            destroyAll("text");
+            k.destroyAll("text");
         }
     });
 
     let timer = 0;
 
-    action(() => {
+    k.action(() => {
         if (isPaused || !run_action) return;
-        timer += dt();
+        timer += k.dt();
         if (timer < move_delay) return;
         timer = 0;
 
@@ -223,25 +225,25 @@ function startGame() {
         }
 
         const head = snake_body[snake_body.length - 1];
-        snake_body.push(add([
-            sprite("snake-skin"),
-            pos(head.pos.x + move_x, head.pos.y + move_y),
-            area(),
+        snake_body.push(k.add([
+            k.sprite("snake-skin"),
+            k.pos(head.pos.x + move_x, head.pos.y + move_y),
+            k.area(),
             "snake"
         ]));
 
         if (snake_body.length > snake_length) {
-            destroy(snake_body.shift());
+            k.destroy(snake_body.shift());
         }
     });
 
-    add([
-        text(
+    k.add([
+        k.text(
             "INSTRUCTIONS:\n\n▶ Arrow keys: Move\n▶ Eat 5 coins to level up\n▶ Avoid walls and yourself\n▶ Eat 30 coins to win\n▶ Press P to Pause/Resume",
             { size: 14, width: 180 }
         ),
-        pos(580, 60),
-        color(255, 255, 255),
-        fixed()
+        k.pos(580, 60),
+        k.color(255, 255, 255),
+        k.fixed()
     ]);
 }
