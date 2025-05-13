@@ -1,7 +1,5 @@
 
-import kaboom from "https://unpkg.com/kaboom@3000.0.1/dist/kaboom.mjs";
-
-const k = kaboom({ 
+kaboom({
     background: [51, 151, 255],
     width: 800,
     height: 600,
@@ -9,34 +7,39 @@ const k = kaboom({
     global: true,
 });
 
-// Load sprites with the correct relative paths
-loadSprite("snake-skin", "snake.png");
-loadSprite("coin", "coin.png");
-loadSprite("background", "background.png");
-loadSprite("fence-top", "fence-top.png");
-loadSprite("fence-bottom", "fence-bottom.png");
-loadSprite("fence-left", "fence-left.png");
-loadSprite("fence-right", "fence-right.png");
-loadSprite("post-top-left", "post-top-left.png");
-loadSprite("post-top-right", "post-top-right.png");
-loadSprite("post-bottom-left", "post-bottom-left.png");
-loadSprite("post-bottom-right", "post-bottom-right.png");
+loadSprite("snake-skin", "./sprites/snake.png");
+loadSprite("coin", "./sprites/coin.png");
+loadSprite("background", "./sprites/background.png");
+loadSprite("fence-top", "./sprites/fence-top.png");
+loadSprite("fence-bottom", "./sprites/fence-bottom.png");
+loadSprite("fence-left", "./sprites/fence-left.png");
+loadSprite("fence-right", "./sprites/fence-right.png");
+loadSprite("post-top-left", "./sprites/post-top-left.png");
+loadSprite("post-top-right", "./sprites/post-top-right.png");
+loadSprite("post-bottom-left", "./sprites/post-bottom-left.png");
+loadSprite("post-bottom-right", "./sprites/post-bottom-right.png");
 
-k.layers(["background", "game"], "game");
+layers(["background", "game"], "game");
+
+let snake_body = [];
+let snake_length = 3;
+let current_direction;
+let run_action = false;
+let score = 0;
+let level = 1;
+let move_delay = 0.35;
+const directions = { UP: "up", DOWN: "down", LEFT: "left", RIGHT: "right" };
 
 // Initial Instructions screen
 const startScreen = add([
-    text("SNAKE GAME\n\n▶ Click the screen and press SPACE to start.\n▶ Use arrow keys to move the snake.\n▶ Eat 5 coins to level up and move faster!\n▶ Avoid hitting walls or yourself!\n▶ Eat 30 coins to win!\n▶ Press P to Pause/Resume.", 
-    { size: 16, align: "left", width: 350, height: 400 }),
+    text(
+        "SNAKE GAME\n\n▶ Click the screen and press SPACE to start.\n▶ Use arrow keys to move the snake.\n▶ Eat 5 coins to level up and move faster!\n▶ Avoid hitting walls or yourself!\n▶ Eat 30 coins to win!\n▶ Press P to Pause/Resume.",
+        { size: 16, align: "left", width: 350, height: 400 }
+    ),
     pos(10, 100),
     color(255, 255, 255),
     fixed(),
 ]);
-
-keyPress("space", () => {
-    destroy(startScreen);
-    startGame();
-});
 
 function respawn_snake() {
     snake_body.forEach(segment => destroy(segment));
@@ -46,25 +49,49 @@ function respawn_snake() {
     for (let i = 1; i <= snake_length; i++) {
         snake_body.push(add([
             sprite("snake-skin"),
-            pos(block_size, block_size * i),
+            pos(40, 40 * i),
             area(),
             "snake"
         ]));
     }
 }
 
-function startGame() {
-    const directions = { UP: "up", DOWN: "down", LEFT: "left", RIGHT: "right" };
-    let current_direction = directions.RIGHT;
-    let run_action = false;
-    let snake_length = 3;
-    let snake_body = [];
-    let score = 0;
-    let level = 1;
-    let move_delay = 0.35;
-    const scoreToWin = 30;
+function respawn_food() {
     const block_size = 40;
+    let new_pos;
+    do {
+        new_pos = rand(vec2(1, 1), vec2(12, 12));
+        new_pos.x = Math.floor(new_pos.x);
+        new_pos.y = Math.floor(new_pos.y);
+        new_pos = new_pos.scale(block_size);
+    } while (
+        new_pos.x <= block_size || new_pos.x >= 13 * block_size ||
+        new_pos.y <= block_size || new_pos.y >= 12 * block_size
+    );
 
+    return add([
+        sprite("coin"),
+        pos(new_pos),
+        area(),
+        "food"
+    ]);
+}
+
+function respawn_all() {
+    run_action = false;
+    wait(0.5, () => {
+        score = 0;
+        level = 1;
+        move_delay = 0.35;
+        respawn_snake();
+        respawn_food();
+        run_action = true;
+    });
+}
+
+function startGame() {
+    const block_size = 40;
+    
     const scoreText = add([
         text("Score: 0", { size: 20 }),
         pos(580, 220),
@@ -108,17 +135,8 @@ function startGame() {
     respawn_all();
 }
 
-function respawn_all() {
-    run_action = false;
-    wait(0.5, () => {
-        score = 0;
-        level = 1;
-        move_delay = 0.35;
-        updateScore();
-        respawn_snake();
-        respawn_food();
-        run_action = true;
-    });
-}
+keyPress("space", () => {
+    destroy(startScreen);
+    startGame();
+});
 
-go("game");
